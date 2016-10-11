@@ -8,28 +8,28 @@ It's based on the idea to have a generic docker image which is used to start bot
 The DockerFile and Resouces used to build this image can be found at the following location:
 > [DockerFile and Resources](https://github.com/SleepingTalent/wildfly-domain-docker)
 
-When the image is built from the docker file, ** _node-info.war_ ** and ** _wait-for-it.sh_ ** are copied to the ** _/opt/jboss/wildfly/ directory_ **
+When the image is built from the docker file, **_node-info.war_** and **_wait-for-it.sh_** are copied to the **_/opt/jboss/wildfly/ directory_**
 
-The DockerFile also replaces the contents of the ** _/opt/jboss/wildfly/domain/configuration/_ ** with the files contained within ** _domain/configuration/*_ **
+The DockerFile also replaces the contents of the **_/opt/jboss/wildfly/domain/configuration/_** with the files contained within **_domain/configuration/*_**
 
-Finally ** _entrypoint.sh_ ** is copied to  ** _/opt/jboss/wildfly/bin/_ **
+Finally **_entrypoint.sh_** is copied to  **_/opt/jboss/wildfly/bin/_**
 
 Ports _8080_,  _9990_,  _9999_ are exposed
 
 ##### Running entrypoint.sh #####
-The first task that the ** _entrypoint.sh_ ** executes is to create a management user by running the **  _add-user.sh_ ** passing in the values stored in the ** * WILDFLY_MANAGEMENT_USER * ** and **  * WILDFLY_MANAGEMENT_PASSWORD * ** environment variables.  
+The first task that the **_entrypoint.sh_** executes is to create a management user by running the **_add-user.sh_** passing in the values stored in the ** * WILDFLY_MANAGEMENT_USER * ** and **  * WILDFLY_MANAGEMENT_PASSWORD * ** environment variables.  
 
-Once the user has been created the placeholders in the ** * host-slave.xml * ** are replaced with the values of ** * WILDFLY_MANAGEMENT_USER * ** and **  * WILDFLY_MANAGEMENT_PASSWORD * **.  The placeholder for the * ** SERVER_GROUP ** * is also replaced with the value from the * ** SERVER_GROUP ** * environment variable.
+Once the user has been created the placeholders in the ***host-slave.xml*** are replaced with the values of ***WILDFLY_MANAGEMENT_USER*** and ***WILDFLY_MANAGEMENT_PASSWORD***.  The placeholder for the ***SERVER_GROUP*** is also replaced with the value from the ***SERVER_GROUP*** environment variable.
 
-** * entrypoint.sh * ** now executes 2 running processes:
+***entrypoint.sh*** now executes 2 running processes:
 * Thread 1 : Start Wildfly in domain mode
 * Thread 2 : Wait for the Domain Controller to be available then deploy a war
 
 ###### Thread 2 : WaitFor and War Deployment ######
 
-This thread will only execute the wait and deploment if the * ** CONTROLLER_TYPE ** * environment variable value is set to * ** domain ** *.
+This thread will only execute the wait and deploment if the ***CONTROLLER_TYPE*** environment variable value is set to ***domain***.
 
-The first task that thread 2 executes is the * ** wait-for-it.sh ** * script. The script listens on * ** localhost:9990 ** *  and waits until the domain controller is available, When it is available the script prints "Wildfly Domain is up"
+The first task that thread 2 executes is the ***wait-for-it.sh*** script. The script listens on ***localhost:9990***  and waits until the domain controller is available, When it is available the script prints "Wildfly Domain is up"
 
 The next task is to call the * ** jboss-cli.sh ** * and deploy the * ** node-info.war ** * to the * ** main-server-group ** *: 
 
