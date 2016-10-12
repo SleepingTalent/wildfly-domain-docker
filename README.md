@@ -40,7 +40,7 @@ The next task is to call the **_jboss-cli.sh_** and deploy the artifact specifie
 #### Running The Domain Controller ####
 In order to setup a domain, you need to start the domain controller first. The domain controller defines two server groups called main-server-group and other-server-group, but does not include any servers.
 
-> docker run --rm -it -p 9990:9990 --name=dc sleepingtalent/wildfly-domain-with-app --host-config host-master.xml -b 0.0.0.0 -bmanagement 0.0.0.0
+> docker run --rm -it -p 9990:9990 -p 9999:9999 --name=dc sleepingtalent/wildfly-domain-with-app --host-config host-master.xml -b 0.0.0.0 -bmanagement 0.0.0.0
 
 #### Running The Host Controller ####
 
