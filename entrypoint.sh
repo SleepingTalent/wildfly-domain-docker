@@ -12,6 +12,7 @@ fi
 
 # Set server group
 sed -i "s/@SERVER_GROUP@/${SERVER_GROUP}/" ${JBOSS_HOME}/domain/configuration/host-slave.xml
+sed -i "s/@DOMAIN_HOST@/${DOMAIN_HOST}/" ${JBOSS_HOME}/domain/configuration/host-slave.xml
 
 # Unset the temporary env variables
 unset ${WILDFLY_MANAGEMENT_USER} ${WILDFLY_MANAGEMENT_PASSWORD}

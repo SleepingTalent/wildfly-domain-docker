@@ -61,15 +61,15 @@
         </management-interfaces>
     </management>
     <domain-controller>
-        <remote host="${env.DOMAIN_CONTROLLER_PORT_9999_TCP_ADDR}" port="${env.DOMAIN_CONTROLLER_PORT_9999_TCP_PORT}" username="@WILDFLY_MANAGEMENT_USER@" security-realm="DomainControllerRealm"/>
+        <remote host="@DOMAIN_HOST@" port="9999" username="@WILDFLY_MANAGEMENT_USER@" security-realm="DomainControllerRealm"/>
     </domain-controller>
     <interfaces>
         <interface name="management">
             <inet-address value="${jboss.bind.address.management:127.0.0.1}"/>
         </interface>
         <interface name="public">
-            <inet-address value="${jboss.bind.address:127.0.0.1}"/>
-        </interface>
+			<any-address/>
+		</interface>
     </interfaces>
     <jvms>
         <jvm name="default">

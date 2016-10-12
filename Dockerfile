@@ -3,6 +3,7 @@ FROM jboss/wildfly
 # Default values for the environment variables used in entrypoint.sh
 ENV WILDFLY_MANAGEMENT_USER admin
 ENV WILDFLY_MANAGEMENT_PASSWORD admin
+ENV DOMAIN_HOST localhost
 ENV SERVER_GROUP main-server-group
 ENV CONTROLLER_TYPE domain
 ENV WAIT_TIME_SECS 30
