@@ -9,7 +9,6 @@ ENV CONTROLLER_TYPE domain
 ENV WAIT_TIME_SECS 30
 ENV ARTIFACT_NAME node-info.war
 
-#ADD node-info.war /opt/jboss/wildfly/
 ADD ${ARTIFACT_NAME} /opt/jboss/wildfly/
 ADD wait-for-it.sh /opt/jboss/wildfly/
 
