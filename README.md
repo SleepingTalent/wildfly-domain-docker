@@ -27,13 +27,15 @@ Once the user has been created the placeholders in the ***host-slave.xml*** are 
 
 ###### Thread 2 : WaitFor and War Deployment ######
 
-This thread will only execute the wait and deploment if the ***CONTROLLER_TYPE*** environment variable value is set to ***domain***.
+This thread will only execute the wait and deploment if the **_CONTROLLER_TYPE_** environment variable value is set to **_domain_**.
 
-The first task that thread 2 executes is the ***wait-for-it.sh*** script. The script listens on ***localhost:9990***  and waits until the domain controller is available, When it is available the script prints "Wildfly Domain is up"
+The first task that thread 2 executes is a sleep taking the value from **_WAIT_TIME_SECS_** environment variable, this should allow the domain to start fully.  
 
-The next task is to call the ***jboss-cli.sh*** and deploy the ***node-info.war*** to the ***main-server-group***: 
+As a final check the **_wait-for-it.sh_** script is run. The script listens on **_localhost:9990_**  and waits until the domain controller is available, When it is available the script prints "Wildfly Domain is up"
 
-> jboss-cli.sh --connect --user=admin --password=admin --command="deploy /opt/jboss/wildfly/node-info.war --server-groups=main-server-group"
+The next task is to call the **_jboss-cli.sh_** and deploy the artifact specified by **_ARTIFACT_NAME_** to the **_SERVER_GROUP_** value: 
+
+>${JBOSS_HOME}/bin/jboss-cli.sh --connect --user=admin --password=admin --command="deploy /opt/jboss/wildfly/${ARTIFACT_NAME} --server-groups=${SERVER_GROUP}"
 
 #### Running The Domain Controller ####
 In order to setup a domain, you need to start the domain controller first. The domain controller defines two server groups called main-server-group and other-server-group, but does not include any servers.
@@ -56,5 +58,7 @@ Here's a list of all environment variables which are processed by the docker ima
 
 * **WILDFLY_MANAGEMENT_USER** : User for the management endpoint. Defaults to "admin".
 * **WILDFLY_MANAGEMENT_PASSWORD** : Password for the management endpoint. Defaults to "admin".
-* **SERVER_GROUP** : Group for the server when starting a host controller. Mandatory when starting a host controller
+* **SERVER_GROUP** : Group for the server when starting a host controller, also used when deploying an artifact to the domain. Defaults to "main-server-group"
 * **CONTROLLER_TYPE** : Defines the controller type to start defaults to **_domain_**
+* **WAIT_TIME_SECS** : Defines the time to wait before attempting to deploy the artifact. Defaults to "30"
+* **ARTIFACT_NAME** : Defines the name of the artifact to copy and deploy. Defaults to  "node-info.war"
