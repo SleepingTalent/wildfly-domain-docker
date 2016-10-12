@@ -1,6 +1,15 @@
 FROM jboss/wildfly
 
-ADD node-info.war /opt/jboss/wildfly/
+# Default values for the environment variables used in entrypoint.sh
+ENV WILDFLY_MANAGEMENT_USER admin
+ENV WILDFLY_MANAGEMENT_PASSWORD admin
+ENV SERVER_GROUP main-server-group
+ENV CONTROLLER_TYPE domain
+ENV WAIT_TIME_SECS 30
+ENV ARTIFACT_NAME node-info.war
+
+#ADD node-info.war /opt/jboss/wildfly/
+ADD ${ARTIFACT_NAME} /opt/jboss/wildfly/
 ADD wait-for-it.sh /opt/jboss/wildfly/
 
 # Add domain specific config files
@@ -14,12 +23,6 @@ USER root
 RUN chown -R jboss:jboss /opt/jboss/wildfly
 RUN chmod +x /opt/jboss/wildfly/bin/entrypoint.sh
 USER jboss
-
-# Default values for the environment variables used in entrypoint.sh
-ENV WILDFLY_MANAGEMENT_USER admin
-ENV WILDFLY_MANAGEMENT_PASSWORD admin
-ENV SERVER_GROUP **undefined**
-ENV CONTROLLER_TYPE domain
 
 EXPOSE 8080 9990 9999
 
