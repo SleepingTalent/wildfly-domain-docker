@@ -16,7 +16,6 @@ sed -i "s/@SERVER_GROUP@/${SERVER_GROUP}/" ${JBOSS_HOME}/domain/configuration/ho
 # Unset the temporary env variables
 unset ${WILDFLY_MANAGEMENT_USER} ${WILDFLY_MANAGEMENT_PASSWORD}
 
-#exec ${JBOSS_HOME}/bin/domain.sh "$@"
 {
 if [ "${CONTROLLER_TYPE}" = "domain" ]
 then
@@ -26,7 +25,6 @@ then
 	echo "artifact-deploy-process: checking that the domain has started"
 	${JBOSS_HOME}/wait-for-it.sh localhost:9990 -- echo "wildfly domain has started"
 	echo "artifact-deploy-process: starting deployment"
-	#${JBOSS_HOME}/bin/jboss-cli.sh --connect --user=admin --password=admin --command="deploy /opt/jboss/wildfly/node-info.war --server-groups=${SERVER_GROUP}"
 	${JBOSS_HOME}/bin/jboss-cli.sh --connect --user=admin --password=admin --command="deploy /opt/jboss/wildfly/${ARTIFACT_NAME} --server-groups=${SERVER_GROUP}"
 	echo "artifact-deploy-process: deployment complete"
 fi	
