@@ -49,7 +49,7 @@ The host controller defines one server called server-one with auto-start=true. W
 * **The name of the link to the domain controller must be domain-controller.**
 * **Add the name of the server group for server-one using the environment variable _SERVER_GROUP_**
 * **CONTROLLER_TYPE must be set to _host_**
-* ** DOMAIN_HOST must be set to _domain ip address_ **
+* **DOMAIN_HOST must be set to _domain ip address_**
 
 > docker run --rm -it -p 8080:8080 -e CONTROLLER_TYPE=host -e DOMAIN_HOST=192.168.99.100 --name=hc sleepingtalnet/wildfly-domain-with-app --host-config host-slave.xml
 
