@@ -1,8 +1,16 @@
-docker run --rm -it -p 9990:9990 --name=dc wildfly-domain --host-config host-master.xml -b 0.0.0.0 -bmanagement 0.0.0.0
 
-docker run --rm -it -p 8080 --link dc:domain-controller -e SERVER_GROUP=main-server-group wildfly-domain --host-config host-slave.xml
+Local Run Examples:
+
+docker run --rm -it -p 9990:9990 -p 9999:9999 --name=dc wildfly-domain-with-app --host-config host-master.xml -b 0.0.0.0 -bmanagement 0.0.0.0
+
+docker run --rm -it -p 9990:9990 -p 9999:9999 --name=dc -e DOMAIN_HOST=192.168.99.100 wildfly-domain-with-app --host-config host-master.xml -b 0.0.0.0 -bmanagement 0.0.0.0
 
 
-docker run --rm -it -p 9990:9990 --name=dc sleepingtalent/wildfly-domain-with-app --host-config host-master.xml -b 0.0.0.0 -bmanagement 0.0.0.0
+docker run --rm -it -p 8080:8080 --name=hc -e CONTROLLER_TYPE=host -e DOMAIN_HOST=192.168.99.100 wildfly-domain-with-app --host-config host-slave.xml
 
-docker run --rm -it -p 8080 --link dc:domain-controller -e CONTROLLER_TYPE=host -e SERVER_GROUP=main-server-group sleepingtalent/wildfly-domain-with-app --host-config host-slave.xml
+
+Docker Hub Image Run Examples:
+
+docker run --rm -it -p 9990:9990 -p 9999:9999 --name=dc sleepingtalent/wildfly-domain-with-app --host-config host-master.xml -b 0.0.0.0 -bmanagement 0.0.0.0
+
+docker run --rm -it -p 8080:8080 --name=hc -e CONTROLLER_TYPE=host -e DOMAIN_HOST=192.168.99.100 sleepingtalent/wildfly-domain-with-app --host-config host-slave.xml
