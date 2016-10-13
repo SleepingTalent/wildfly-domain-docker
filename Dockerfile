@@ -27,4 +27,4 @@ USER jboss
 EXPOSE 8080 9990 9999
 
 ENTRYPOINT ["/opt/jboss/wildfly/bin/entrypoint.sh"]
-CMD ["-b", "0.0.0.0", "-bmanagement", "0.0.0.0"]
+#CMD ["-b", "0.0.0.0", "-bmanagement", "0.0.0.0"]
